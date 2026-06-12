@@ -1,135 +1,150 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pogoda PWA</title>
-  <meta name="description" content="Prosta pogodynka PWA – działa offline!" />
-  <meta name="theme-color" content="#0f172a" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pogoda PWA</title>
+    <meta name="description" content="Prosta pogodynka PWA – działa offline!" />
+    <meta name="theme-color" content="#0f172a" />
 
-  <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json" />
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.json" />
 
-  <!-- iOS support -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Pogoda" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <!-- iOS support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Pogoda" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="bg-gradient" id="bgGradient"></div>
 
-  <div class="bg-gradient" id="bgGradient"></div>
+    <main class="app">
+      <header class="app-header">
+        <span class="app-label">POGODA PWA v1.2</span>
+        <div class="install-btn-wrap">
+          <button id="installBtn" class="install-btn hidden">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v13M8 11l4 4 4-4" />
+              <rect x="3" y="18" width="18" height="3" rx="1" />
+            </svg>
+            Zainstaluj
+          </button>
+        </div>
+      </header>
 
-  <main class="app">
+      <!-- Search -->
+      <section class="search-section">
+        <div class="search-box">
+          <input type="text" id="cityInput" placeholder="Wpisz miasto…" autocomplete="off" spellcheck="false" />
+          <button id="searchBtn" aria-label="Szukaj">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </button>
+        </div>
+      </section>
 
-    <header class="app-header">
-      <span class="app-label">POGODA PWA</span>
-      <div class="install-btn-wrap">
-        <button id="installBtn" class="install-btn hidden">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v13M8 11l4 4 4-4"/><rect x="3" y="18" width="18" height="3" rx="1"/></svg>
-          Zainstaluj
-        </button>
+      <!-- Offline banner -->
+      <div id="offlineBanner" class="offline-banner hidden">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01"
+          />
+        </svg>
+        Tryb offline – wyświetlam ostatnie dane
       </div>
-    </header>
 
-    <!-- Search -->
-    <section class="search-section">
-      <div class="search-box">
-        <input
-          type="text"
-          id="cityInput"
-          placeholder="Wpisz miasto…"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <button id="searchBtn" aria-label="Szukaj">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
-      </div>
-    </section>
-
-    <!-- Offline banner -->
-    <div id="offlineBanner" class="offline-banner hidden">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
-      Tryb offline – wyświetlam ostatnie dane
-    </div>
-
-    <!-- Main weather card -->
-    <section id="weatherSection" class="weather-section hidden">
-
-      <div class="weather-card main-card">
-        <div class="card-top">
-          <div class="location-wrap">
-            <span class="city-name" id="cityName">–</span>
-            <span class="country-code" id="countryCode"></span>
+      <!-- Main weather card -->
+      <section id="weatherSection" class="weather-section hidden">
+        <div class="weather-card main-card">
+          <div class="card-top">
+            <div class="location-wrap">
+              <span class="city-name" id="cityName">–</span>
+              <span class="country-code" id="countryCode"></span>
+            </div>
+            <div class="weather-icon-wrap">
+              <img id="weatherIcon" src="" alt="" width="80" height="80" />
+            </div>
           </div>
-          <div class="weather-icon-wrap">
-            <img id="weatherIcon" src="" alt="" width="80" height="80" />
+
+          <div class="temp-display">
+            <span id="tempValue">–</span>
+            <span class="temp-unit">°C</span>
+          </div>
+
+          <div class="condition-text" id="conditionText">–</div>
+          <div class="feels-like">Odczuwalna: <span id="feelsLike">–</span>°C</div>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2a7 7 0 017 7c0 4.97-7 13-7 13S5 13.97 5 9a7 7 0 017-7z" />
+              <circle cx="12" cy="9" r="2.5" />
+            </svg>
+            <span class="stat-label">Wilgotność</span>
+            <span class="stat-value" id="humidity">–</span>
+            <span class="stat-unit">%</span>
+          </div>
+          <div class="stat-card">
+            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2" />
+            </svg>
+            <span class="stat-label">Wiatr</span>
+            <span class="stat-value" id="windSpeed">–</span>
+            <span class="stat-unit">km/h</span>
+          </div>
+          <div class="stat-card">
+            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 12h20M12 2v20" />
+              <circle cx="12" cy="12" r="4" />
+            </svg>
+            <span class="stat-label">Ciśnienie</span>
+            <span class="stat-value" id="pressure">–</span>
+            <span class="stat-unit">hPa</span>
+          </div>
+          <div class="stat-card">
+            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+            </svg>
+            <span class="stat-label">Widoczność</span>
+            <span class="stat-value" id="visibility">–</span>
+            <span class="stat-unit">km</span>
           </div>
         </div>
 
-        <div class="temp-display">
-          <span id="tempValue">–</span>
-          <span class="temp-unit">°C</span>
-        </div>
+        <div class="updated-at" id="updatedAt"></div>
+      </section>
 
-        <div class="condition-text" id="conditionText">–</div>
-        <div class="feels-like">Odczuwalna: <span id="feelsLike">–</span>°C</div>
+      <!-- Empty state -->
+      <section id="emptyState" class="empty-state">
+        <div class="empty-icon">🌤️</div>
+        <p>Wpisz nazwę miasta,<br />żeby sprawdzić pogodę</p>
+      </section>
+
+      <!-- Error state -->
+      <section id="errorState" class="error-state hidden">
+        <div class="empty-icon">😶‍🌫️</div>
+        <p id="errorMsg">Nie znaleziono miasta</p>
+      </section>
+
+      <!-- Loading -->
+      <div id="loadingState" class="loading-state hidden">
+        <div class="spinner"></div>
       </div>
+    </main>
 
-      <!-- Stats grid -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 4.97-7 13-7 13S5 13.97 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          <span class="stat-label">Wilgotność</span>
-          <span class="stat-value" id="humidity">–</span>
-          <span class="stat-unit">%</span>
-        </div>
-        <div class="stat-card">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
-          <span class="stat-label">Wiatr</span>
-          <span class="stat-value" id="windSpeed">–</span>
-          <span class="stat-unit">km/h</span>
-        </div>
-        <div class="stat-card">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h20M12 2v20"/><circle cx="12" cy="12" r="4"/></svg>
-          <span class="stat-label">Ciśnienie</span>
-          <span class="stat-value" id="pressure">–</span>
-          <span class="stat-unit">hPa</span>
-        </div>
-        <div class="stat-card">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-          <span class="stat-label">Widoczność</span>
-          <span class="stat-value" id="visibility">–</span>
-          <span class="stat-unit">km</span>
-        </div>
-      </div>
-
-      <div class="updated-at" id="updatedAt"></div>
-
-    </section>
-
-    <!-- Empty state -->
-    <section id="emptyState" class="empty-state">
-      <div class="empty-icon">🌤️</div>
-      <p>Wpisz nazwę miasta,<br/>żeby sprawdzić pogodę</p>
-    </section>
-
-    <!-- Error state -->
-    <section id="errorState" class="error-state hidden">
-      <div class="empty-icon">😶‍🌫️</div>
-      <p id="errorMsg">Nie znaleziono miasta</p>
-    </section>
-
-    <!-- Loading -->
-    <div id="loadingState" class="loading-state hidden">
-      <div class="spinner"></div>
-    </div>
-
-  </main>
-
-  <script src="js/app.js"></script>
-</body>
+    <script src="js/app.js"></script>
+  </body>
 </html>
