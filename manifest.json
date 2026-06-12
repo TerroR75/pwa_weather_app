@@ -1,8 +1,8 @@
 {
   "name": "Pogoda PWA",
-  "short_name": "Pogoda",
+  "short_name": "Pogodynka PWA",
   "description": "Prosta pogodynka działająca offline – przykład Progressive Web App",
-  "start_url": "/",
+  "start_url": "/pwa_weather_app",
   "display": "standalone",
   "background_color": "#0a0f1e",
   "theme_color": "#0f172a",

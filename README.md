@@ -5,38 +5,6 @@ Działa offline, można zainstalować na Androidzie jak natywna apka.
 
 ---
 
-## 🚀 Jak uruchomić (5 minut)
-
-### 1. Zdobądź darmowy klucz API
-
-1. Wejdź na [openweathermap.org](https://openweathermap.org/api)
-2. Załóż darmowe konto
-3. Wejdź w **My API Keys** i skopiuj klucz
-4. Otwórz `js/app.js` i zamień `'TWOJ_KLUCZ_API'` swoim kluczem
-
-### 2. Wrzuć na GitHub Pages (darmowy hosting z HTTPS!)
-
-```bash
-# Utwórz nowe repozytorium na github.com
-# Wgraj wszystkie pliki
-# W ustawieniach repo → Pages → Deploy from branch → main
-```
-
-Twoja apka będzie dostępna pod adresem:  
-`https://TWOJA_NAZWA.github.io/NAZWA_REPO/`
-
-### 3. Testuj lokalnie (opcjonalnie)
-
-```bash
-# Potrzebujesz Node.js
-npx serve .
-# Otwórz http://localhost:3000
-```
-
-> ⚠️ Service Worker wymaga **HTTPS** lub **localhost** – dlatego GitHub Pages jest idealny.
-
----
-
 ## 📱 Jak zainstalować na Androidzie
 
 1. Otwórz stronę w **Chrome na Androidzie**
@@ -56,7 +24,7 @@ pwa-weather/
 ├── css/
 │   └── style.css
 ├── js/
-│   └── app.js          # Logika apki + install prompt
+│   └── app.js          # Logika apki
 └── icons/
     ├── icon-192.png
     └── icon-512.png
@@ -66,13 +34,13 @@ pwa-weather/
 
 ## 🔑 Kluczowe koncepty PWA (do prezentacji)
 
-| Cecha | Jak to działa w tej apce |
-|---|---|
-| **Instalowalność** | `manifest.json` + Service Worker → przycisk "Zainstaluj" w Chrome |
-| **Praca offline** | Service Worker cache'uje zasoby, localStorage trzyma ostatnią pogodę |
-| **Cache First** | Statyczne zasoby (HTML, CSS, JS) ładowane z cache |
-| **Network First** | API pogodowe – najpierw sieć, potem cache |
-| **App Shell** | UI ładuje się błyskawicznie, dane doładowują się po |
+| Cecha              | Jak to działa w tej apce                                             |
+| ------------------ | -------------------------------------------------------------------- |
+| **Instalowalność** | `manifest.json` + Service Worker → przycisk "Zainstaluj" w Chrome    |
+| **Praca offline**  | Service Worker cache'uje zasoby, localStorage trzyma ostatnią pogodę |
+| **Cache First**    | Statyczne zasoby (HTML, CSS, JS) ładowane z cache                    |
+| **Network First**  | API pogodowe – najpierw sieć, potem cache                            |
+| **App Shell**      | UI ładuje się błyskawicznie, dane doładowują się po                  |
 
 ---
 
